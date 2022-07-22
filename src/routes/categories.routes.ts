@@ -1,25 +1,25 @@
 import { Router } from 'express';
+import multer from 'multer';
 
-import { CategoriesRepository } from '../modules/cars/repositories/CategoriesRepository';
-import { CreateCategoryService } from '../modules/cars/services/CreateCategoryService';
+import { createCategoryController } from '../modules/cars/useCases/createCategory';
+import { importCategoryController } from '../modules/cars/useCases/importCategory';
+import { listCategoriesController } from '../modules/cars/useCases/listCategories';
+// import { PostgresCategoriesRepository } from '../modules/cars/repositories/PostgresCategoriesRepository';
 
 const categoriesRoutes = Router();
-const categoriesRepository = new CategoriesRepository();
 
-categoriesRoutes.post('/', (req, res) => {
-  const { name, description } = req.body;
+const upload = multer({ dest: './tmp' });
 
-  const createCategoryService = new CreateCategoryService(categoriesRepository);
+categoriesRoutes.post('/', (req, res) =>
+  createCategoryController.handler(req, res)
+);
 
-  createCategoryService.execute({ name, description });
+categoriesRoutes.get('/', (req, res) =>
+  listCategoriesController.handler(req, res)
+);
 
-  return res.status(201).send();
-});
-
-categoriesRoutes.get('/', (req, res) => {
-  const categories = categoriesRepository.list();
-
-  return res.status(200).json(categories);
-});
+categoriesRoutes.post('/import', upload.single('file'), (req, res) =>
+  importCategoryController.handler(req, res)
+);
 
 export { categoriesRoutes };

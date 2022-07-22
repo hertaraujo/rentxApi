@@ -1,20 +1,15 @@
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
 
-import { categoriesRoutes } from './routes/categories.routes';
+import { router } from './routes';
+import swaggerFile from './swagger.json';
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/categories', categoriesRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-/* app.get('/', (req, res) => {
-  return res.json({ message: 'Hello World' });
-});
-
-app.post('/courses', (req, res) => {
-  const { name } = req.body;
-  return res.json({ name });
-}); */
+app.use(router);
 
 app.listen(8000, () => console.log('Running!'));
