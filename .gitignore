@@ -1,0 +1,9 @@
+# Logs
+*.log
+
+# Locks
+*.lock
+
+# Dependency directories
+node_modules
+.vscode
