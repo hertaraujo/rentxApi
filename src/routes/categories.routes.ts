@@ -1,25 +1,32 @@
 import { Router } from 'express';
 import multer from 'multer';
 
-import { createCategoryController } from '../modules/cars/useCases/createCategory';
-import { importCategoryController } from '../modules/cars/useCases/importCategory';
-import { listCategoriesController } from '../modules/cars/useCases/listCategories';
+// import createCategoryController from '../modules/cars/useCases/createCategory';
+import { CreateCategoryController } from '../modules/cars/useCases/createCategory/CreateCategoryController';
+import { ImportCategoryController } from '../modules/cars/useCases/importCategory/ImportCategoryController';
+import { ListCategoriesController } from '../modules/cars/useCases/listCategories/ListCategoriesController';
 // import { PostgresCategoriesRepository } from '../modules/cars/repositories/PostgresCategoriesRepository';
 
 const categoriesRoutes = Router();
 
 const upload = multer({ dest: './tmp' });
 
-categoriesRoutes.post('/', (req, res) =>
-  createCategoryController.handler(req, res)
-);
+const createCategoryController = new CreateCategoryController();
+const importCategoryController = new ImportCategoryController();
+const listCategoriesController = new ListCategoriesController();
 
-categoriesRoutes.get('/', (req, res) =>
-  listCategoriesController.handler(req, res)
-);
+/* categoriesRoutes.post('/', (req, res) =>
+  createCategoryController().handler(req, res)
+); */
 
-categoriesRoutes.post('/import', upload.single('file'), (req, res) =>
-  importCategoryController.handler(req, res)
+categoriesRoutes.post('/', createCategoryController.handler);
+
+categoriesRoutes.get('/', listCategoriesController.handler);
+
+categoriesRoutes.post(
+  '/import',
+  upload.single('file'),
+  importCategoryController.handler
 );
 
 export { categoriesRoutes };
