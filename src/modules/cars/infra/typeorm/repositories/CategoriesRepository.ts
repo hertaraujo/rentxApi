@@ -1,5 +1,10 @@
-import { ICategoriesRepository, ICreateCategoryDTO } from '@modules/cars/repositories/ICategoriesRepository';
 import { getRepository, Repository } from 'typeorm';
+
+import {
+  ICategoriesRepository,
+  ICreateCategoryDTO,
+} from '@modules/cars/repositories/ICategoriesRepository';
+
 import { Category } from '../entities/Category';
 
 // DTO => Data transfer object: um objeto que faz transferência de dados entre camadas, classes. ICategoriesRepository, e.g.

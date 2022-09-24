@@ -1,5 +1,6 @@
-import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
+
+import { AppError } from '@shared/errors/AppError';
 
 import { ISpecificationsRepository } from '../../repositories/ISpecificationsRepository';
 
@@ -13,7 +14,7 @@ export class CreateSpecificationUseCase {
   constructor(
     @inject('SpecificationsRepository')
     private specificationsRepository: ISpecificationsRepository
-  ) { }
+  ) {}
 
   async execute({ description, name }: IRequest): Promise<void> {
     const specificationAlreadyExists =

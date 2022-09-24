@@ -1,7 +1,8 @@
-import { AppError } from '@shared/errors/AppError';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
+
+import { AppError } from '@shared/errors/AppError';
 
 import { IUsersRepository } from '../../repositories/IUsersRepository';
 
@@ -23,7 +24,7 @@ class AuthenticateUserUseCase {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository
-  ) { }
+  ) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
     // userExists?
@@ -42,7 +43,10 @@ class AuthenticateUserUseCase {
       expiresIn: '1d',
     });
 
-    const tokenReturn: IResponse = { token, user: { name: user.name, email: user.email } };
+    const tokenReturn: IResponse = {
+      token,
+      user: { name: user.name, email: user.email },
+    };
 
     return tokenReturn;
   }
